@@ -27,9 +27,19 @@ body {
 }
 
 .calculation-display {
-  padding-top: 10px;
   height: 2em;
   font-size: 1em;
+  padding-top: 10px;
+}
+
+.result-display {
+  color: #00ffff;
+  font-size: 1.3em;
+  height: 5em;
+  margin-top: -20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 footer {
