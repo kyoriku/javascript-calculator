@@ -1,31 +1,38 @@
 body {
   background-color: #f9fbfd;
+  color: #ffffff;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .calc {
-  max-width: 280px;
   background: darkgrey;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   margin: auto;
   margin-top: 50px;
+  max-width: 280px;
 }
 
 .display {
   background-color: black;
   border-radius: 10px 10px 15px 15px;
+  font-size: 1.2em;
+  height: 5em;
   margin-bottom: 16px;
-  text-align: right;
+  overflow: hidden;
   padding-right: 15px;
   padding-bottom: 0.7em;
-  height: 5em;
-  font-size: 1.2em;
-  font-weight: 400;
-  overflow: hidden;
+  text-align: right;
+}
+
+.calculation-display {
+  padding-top: 10px;
+  height: 2em;
+  font-size: 1em;
 }
 
 footer {
+  color: #000000;
   text-align: center;
 }
