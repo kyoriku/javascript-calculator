@@ -7,12 +7,23 @@ body {
   max-width: 280px;
   background: darkgrey;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(10.5px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  justify-content: center;
   margin: auto;
-  margin-top: 75px;
+  margin-top: 50px;
+}
+
+.display {
+  background-color: black;
+  border-radius: 10px 10px 15px 15px;
+  margin-bottom: 16px;
+  text-align: right;
+  padding-right: 15px;
+  padding-bottom: 0.7em;
+  height: 5em;
+  font-size: 1.2em;
+  font-weight: 400;
+  overflow: hidden;
 }
 
 footer {
