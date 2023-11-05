@@ -59,7 +59,7 @@ body {
   color: #000000;
 }
 
-.math-btn {  
+.operator-btn {  
   background-color: #fea00a;
   border: none;
   border-radius: 60px;
@@ -71,7 +71,7 @@ body {
   width: 60px;
 }
 
-.math-btn:hover {
+.operator-btn:hover {
   background-color: #ffffff;
   color: #fea00a;
 }
