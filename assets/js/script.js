@@ -1,3 +1,4 @@
+var calculate = document.getElementById('calculation-display')
 var zeroBtn = document.getElementById('0-btn');
 var oneBtn = document.getElementById('1-btn');
 var twoBtn = document.getElementById('2-btn');
@@ -16,6 +17,7 @@ var decimalBtn = document.getElementById('decimal-btn');
 var equalBtn = document.getElementById('equal-btn');
 var clearBtn = document.getElementById('clear-btn');
 var deleteBtn = document.getElementById('delete-btn');
+var calculation = '';
 
 function add(a, b) {
   return a + b;
@@ -33,35 +35,59 @@ function divide(a, b) {
   return a / b;
 }
 
+function updateCalculation(value) {
+  if (value === '+' || value === '-' || value === '*' || value === '/') {
+    calculation += ` ${value} `;
+  } else {
+    calculation += value;
+  }
+  calculate.innerText = calculation;
+}
+
 zeroBtn.addEventListener('click', function() {
+  updateCalculation('0');
 })
 oneBtn.addEventListener('click', function() {
+  updateCalculation('1');
 })
 twoBtn.addEventListener('click', function() {
+  updateCalculation('2');
 })
 threeBtn.addEventListener('click', function() {
+  updateCalculation('3');
 })
 fourBtn.addEventListener('click', function() {
+  updateCalculation('4');
 })
 fiveBtn.addEventListener('click', function() {
+  updateCalculation('5');
 })
 sixBtn.addEventListener('click', function() {
+  updateCalculation('6');
 })
 sevenBtn.addEventListener('click', function() {
+  updateCalculation('7');
 })
 eightBtn.addEventListener('click', function() {
+  updateCalculation('8');
 })
 nineBtn.addEventListener('click', function() {
+  updateCalculation('9');
 })
 divideBtn.addEventListener('click', function() {
+  updateCalculation(' / ');
 })
 multiplyBtn.addEventListener('click', function() {
+  updateCalculation(' * ');
 })
 subtractBtn.addEventListener('click', function() {
+  updateCalculation(' - ');
 })
 addBtn.addEventListener('click', function() {
+  updateCalculation(' + ');
 })
 decimalBtn.addEventListener('click', function() {
+  updateCalculation('.');
 })
 equalBtn.addEventListener('click', function() {
 })
