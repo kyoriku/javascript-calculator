@@ -21,26 +21,6 @@ var clearBtn = document.getElementById('clear-btn'); // Button for clearing the 
 var deleteBtn = document.getElementById('delete-btn'); // Button for deleting the last character
 var calculation = ''; // Initialize an empty string to store the user's input
 
-// Function to perform addition
-function add(a, b) {
-  return a + b;
-}
-
-// Function to perform subtraction
-function subtract(a, b) {
-  return a - b;
-}
-
-// Function to perform multiplication
-function multiply(a, b) {
-  return a * b;
-}
-
-// Function to perform division
-function divide(a, b) {
-  return a / b;
-}
-
 // Function to update the calculation display based on user input
 function updateCalculation(value) {
   if (value === '+' || value === '-' || value === '*' || value === '/') {
