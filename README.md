@@ -6,7 +6,7 @@ This project was developed to offer a convenient and accessible tool for perform
 The calculator is built using HTML, CSS, and JavaScript, making it accessible through a web browser on various devices. Users can input numbers and operators through a user-friendly interface, and the application utilizes JavaScript functions to evaluate and display the results in real-time. The project also includes error handling to ensure that division by zero or other potential issues are handled gracefully. The calculator allows users to perform calculations, clear the display, and delete the last character for a seamless and efficient user experience.
 
 ## Usage
-> [Link to deployed applicaton]((https://kyoriku.github.io/calculator/))
+> [Link to deployed applicaton](https://kyoriku.github.io/calculator/)
 
 ![Screenshot](assets/images/calculator.png)
 
