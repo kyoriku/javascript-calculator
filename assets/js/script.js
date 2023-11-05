@@ -1,4 +1,5 @@
 var calculate = document.getElementById('calculation-display')
+var results = document.getElementById('result-display')
 var zeroBtn = document.getElementById('0-btn');
 var oneBtn = document.getElementById('1-btn');
 var twoBtn = document.getElementById('2-btn');
@@ -42,6 +43,17 @@ function updateCalculation(value) {
     calculation += value;
   }
   calculate.innerText = calculation;
+}
+
+function calculateResult() {
+  try {
+    calculation = eval(calculation);
+    calculation = Math.round(calculation * 100) / 100;
+    results.textContent = calculation;
+  } catch (error) {
+    results.innerText = "Error";
+    calculation = "";
+  }
 }
 
 zeroBtn.addEventListener('click', function() {
@@ -89,8 +101,7 @@ addBtn.addEventListener('click', function() {
 decimalBtn.addEventListener('click', function() {
   updateCalculation('.');
 })
-equalBtn.addEventListener('click', function() {
-})
+equalBtn.addEventListener('click', calculateResult);
 clearBtn.addEventListener('click', function() {
 })
 deleteBtn.addEventListener('click', function() {
