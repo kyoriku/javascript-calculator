@@ -62,6 +62,13 @@ function clearDisplay() {
   resultEl.textContent = "0";
 }
 
+function deleteLastCharacter() {
+  if (calculation) {
+    calculation = calculation.slice(0, -1);
+    calculateEl.innerText = calculation;
+  }
+}
+
 zeroBtn.addEventListener('click', function() {
   updateCalculation('0');
 });
@@ -109,5 +116,4 @@ decimalBtn.addEventListener('click', function() {
 });
 equalBtn.addEventListener('click', calculateResult);
 clearBtn.addEventListener('click', clearDisplay);
-deleteBtn.addEventListener('click', function() {
-});
+deleteBtn.addEventListener('click', deleteLastCharacter);
