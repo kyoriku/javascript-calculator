@@ -1,5 +1,5 @@
-var calculate = document.getElementById('calculation-display')
-var results = document.getElementById('result-display')
+var calculateEl = document.getElementById('calculation-display');
+var resultEl = document.getElementById('result-display');
 var zeroBtn = document.getElementById('0-btn');
 var oneBtn = document.getElementById('1-btn');
 var twoBtn = document.getElementById('2-btn');
@@ -42,67 +42,72 @@ function updateCalculation(value) {
   } else {
     calculation += value;
   }
-  calculate.innerText = calculation;
+  calculateEl.innerText = calculation;
 }
 
 function calculateResult() {
   try {
     calculation = eval(calculation);
     calculation = Math.round(calculation * 100) / 100;
-    results.textContent = calculation;
+    resultEl.textContent = calculation;
   } catch (error) {
-    results.innerText = "Error";
-    calculation = "";
+    resultEl.innerText = 'Error';
+    calculation = '';
   }
+}
+
+function clearDisplay() {
+  calculation = '';
+  calculateEl.innerText = "0";
+  resultEl.textContent = "0";
 }
 
 zeroBtn.addEventListener('click', function() {
   updateCalculation('0');
-})
+});
 oneBtn.addEventListener('click', function() {
   updateCalculation('1');
-})
+});
 twoBtn.addEventListener('click', function() {
   updateCalculation('2');
-})
+});
 threeBtn.addEventListener('click', function() {
   updateCalculation('3');
-})
+});
 fourBtn.addEventListener('click', function() {
   updateCalculation('4');
-})
+});
 fiveBtn.addEventListener('click', function() {
   updateCalculation('5');
-})
+});
 sixBtn.addEventListener('click', function() {
   updateCalculation('6');
-})
+});
 sevenBtn.addEventListener('click', function() {
   updateCalculation('7');
-})
+});
 eightBtn.addEventListener('click', function() {
   updateCalculation('8');
-})
+});
 nineBtn.addEventListener('click', function() {
   updateCalculation('9');
-})
+});
 divideBtn.addEventListener('click', function() {
   updateCalculation(' / ');
-})
+});
 multiplyBtn.addEventListener('click', function() {
   updateCalculation(' * ');
-})
+});
 subtractBtn.addEventListener('click', function() {
   updateCalculation(' - ');
-})
+});
 addBtn.addEventListener('click', function() {
   updateCalculation(' + ');
-})
+});
 decimalBtn.addEventListener('click', function() {
   updateCalculation('.');
-})
+});
 equalBtn.addEventListener('click', calculateResult);
-clearBtn.addEventListener('click', function() {
-})
+clearBtn.addEventListener('click', clearDisplay);
 deleteBtn.addEventListener('click', function() {
-})
+});
