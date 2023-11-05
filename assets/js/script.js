@@ -7,7 +7,7 @@ var fiveBtn = document.getElementById('5-btn');
 var sixBtn = document.getElementById('6-btn');
 var sevenBtn = document.getElementById('7-btn');
 var eightBtn = document.getElementById('8-btn');
-var nineBtn = document.getElementById('0-btn');
+var nineBtn = document.getElementById('9-btn');
 var divideBtn = document.getElementById('divide-btn');
 var multiplyBtn = document.getElementById('multiply-btn');
 var subtractBtn = document.getElementById('subtract-btn');
@@ -16,6 +16,22 @@ var decimalBtn = document.getElementById('decimal-btn');
 var equalBtn = document.getElementById('equal-btn');
 var clearBtn = document.getElementById('clear-btn');
 var deleteBtn = document.getElementById('delete-btn');
+
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  return a / b;
+}
 
 zeroBtn.addEventListener('click', function() {
 })
