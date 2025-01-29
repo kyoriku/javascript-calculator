@@ -1,115 +1,214 @@
+/* Design Tokens */
+:root {
+  /* Colors */
+  --color-bg: #f8fafc;
+  --color-calc-bg: #8a8a8a;
+  --color-display-bg: #000000;
+  --color-number-btn: #333333;
+  --color-number-btn-hover: #444444;
+  --color-operator-btn: #fea00a;
+  --color-operator-btn-hover: #feb23d;
+  --color-display-text: #ffffff;
+  --color-result-text: #22d3ee;
+  --color-clear-btn: #dc2626;
+  --color-clear-btn-hover: #ef4444;
+  --color-delete-btn: #333333;
+  --color-delete-btn-hover: #444444;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  
+  /* Effects */
+  --shadow-calc: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-btn: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-btn-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --transition: all 0.1s ease;
+}
+
+/* Base Styles */
 body {
-  background-color: #f9fbfd;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .calc {
-  background: #a9a9a9;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  margin: auto;
-  margin-top: 50px;
-  max-width: 280px;
+  background: var(--color-calc-bg);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-calc);
+  max-width: 320px;
+  width: 100%;
+  padding: 1rem 1rem 0.5rem 1rem;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Display Section */
 .display {
-  background-color: #000000;
-  border-radius: 10px 10px 15px 15px;
-  font-size: 1.2em;
-  height: 5em;
-  margin-bottom: 16px;
-  overflow: hidden;
-  padding-right: 15px;
-  padding-bottom: 0.7em;
-  text-align: right;
+  background-color: var(--color-display-bg);
+  border-radius: 1rem;
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 }
 
 .calculation-display {
-  color: #ffffff;
-  height: 2em;
-  font-size: 1em;
-  padding-top: 10px;
+  color: var(--color-display-text);
+  font-size: 1.5rem;
+  min-height: 1.5rem;
+  text-align: right;
+  opacity: 0.8;
+  margin-bottom: var(--spacing-sm);
+  padding-right: var(--spacing-sm);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .result-display {
-  color: #00ffff;
-  font-size: 1.3em;
-  height: 5em;
-  margin-top: -20px;
+  color: var(--color-result-text);
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: right;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-right: var(--spacing-sm);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.number-btn {
-  background-color: #333333;
+/* Button Sections */
+section p {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.buttons p {
+  margin-top: var(--spacing-sm);
+}
+
+/* Button Base Styles */
+button {
   border: none;
-  border-radius: 60px;
-  color: #ffffff;
+  border-radius: 1rem;
+  color: var(--color-display-text);
   cursor: pointer;
-  height: 60px;
-  font-size: 26px;
-  margin-left: 5px;
-  width: 60px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: var(--spacing-lg);
+  transition: var(--transition);
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-btn);
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  opacity: 0;
+  transition: var(--transition);
+}
+
+button:hover::before {
+  opacity: 1;
+}
+
+/* Number Buttons */
+.number-btn {
+  background-color: var(--color-number-btn);
 }
 
 .number-btn:hover {
-  background-color: #00ffff;
-  color: #000000;
+  background-color: var(--color-number-btn-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-hover);
 }
 
-.operator-btn {  
-  background-color: #fea00a;
-  border: none;
-  border-radius: 60px;
-  color: #ffffff;
-  cursor: pointer;
-  height: 60px;
-  font-size: 26px;
-  margin-left: 5px;
-  width: 60px;
+/* Operator Buttons */
+.operator-btn {
+  background-color: var(--color-operator-btn);
+  font-weight: 600;
 }
 
 .operator-btn:hover {
-  background-color: #ffffff;
-  color: #fea00a;
+  background-color: var(--color-operator-btn-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-hover);
+}
+
+/* Clear & Delete Buttons */
+section p:last-child {
+  grid-template-columns: 2fr 1fr;
 }
 
 .clear-btn {
-  background-color: #333333;
-  border: none;
-  border-radius: 60px;
-  color: white;
-  cursor: pointer;
-  height: 60px;
-  font-size: 20px;
-  margin-left: 5px;
-  width: 129px;
+  background-color: var(--color-clear-btn);
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
-.delete-btn {  
-  background-color: #333333;
-  border: none;
-  border-radius: 60px;
-  color: #ffffff;
-  cursor: pointer;
-  height: 60px;
-  font-size: 20px;
-  margin-left: 6px;
-  width: 60px;
+.clear-btn:hover {
+  background-color: var(--color-clear-btn-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-hover);
 }
 
-.clear-btn:hover, .delete-btn:hover {
-  background-color: orange;
+.delete-btn {
+  background-color: var(--color-delete-btn);
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
+.delete-btn:hover {
+  background-color: var(--color-delete-btn-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-hover);
+}
+
+/* Footer */
 footer {
-  color: #000000;
+  margin-top: 1.25rem;;
+  color: var(--color-calc-bg);
+  font-size: 0.875rem;
   text-align: center;
-  padding-top: 90px;
 }
 
-footer p {
-  margin-bottom: 0px;
+/* Responsive Design */
+@media (max-width: 360px) {
+  .calc {
+    padding: var(--spacing-md);
+  }
+  
+  button {
+    height: 3.5rem;
+    font-size: 1.125rem;
+    padding: var(--spacing-md);
+  }
+  
+  .result-display {
+    font-size: 1.75rem;
+  }
 }
