@@ -1,109 +1,162 @@
-// Get references to various HTML elements
-var calculateEl = document.getElementById('calculation-display'); // The display for the current calculation
-var resultEl = document.getElementById('result-display'); // The display for the result
-var zeroBtn = document.getElementById('0-btn'); // Button for the digit 0
-var oneBtn = document.getElementById('1-btn'); // Button for the digit 1
-var twoBtn = document.getElementById('2-btn'); // Button for the digit 2
-var threeBtn = document.getElementById('3-btn'); // Button for the digit 3
-var fourBtn = document.getElementById('4-btn'); // Button for the digit 4
-var fiveBtn = document.getElementById('5-btn'); // Button for the digit 5
-var sixBtn = document.getElementById('6-btn'); // Button for the digit 6
-var sevenBtn = document.getElementById('7-btn'); // Button for the digit 7
-var eightBtn = document.getElementById('8-btn'); // Button for the digit 8
-var nineBtn = document.getElementById('9-btn'); // Button for the digit 9
-var divideBtn = document.getElementById('divide-btn'); // Button for the division operator (/)
-var multiplyBtn = document.getElementById('multiply-btn'); // Button for the multiplication operator (*)
-var subtractBtn = document.getElementById('subtract-btn'); // Button for the subtraction operator (-)
-var addBtn = document.getElementById('add-btn'); // Button for the addition operator (+)
-var decimalBtn = document.getElementById('decimal-btn'); // Button for the decimal point (.)
-var equalBtn = document.getElementById('equal-btn'); // Button for calculating the result (=)
-var clearBtn = document.getElementById('clear-btn'); // Button for clearing the display
-var deleteBtn = document.getElementById('delete-btn'); // Button for deleting the last character
-var calculation = ''; // Initialize an empty string to store the user's input
+class Calculator {
+  constructor() {
+    this.calculation = '';
+    this.displays = {
+      calculation: document.getElementById('calculation-display'),
+      result: document.getElementById('result-display')
+    };
+    
+    // Map for converting operators for display
+    this.operatorDisplayMap = {
+      '*': ' × ',
+      'x': ' × ',
+      '/': ' ÷ ',
+      '+': ' + ',
+      '-': ' - '
+    };
 
-// Function to update the calculation display based on user input
-function updateCalculation(value) {
-  if (value === '+' || value === '-' || value === '*' || value === '/') {
-    calculation += ` ${value} `; // Add spaces around operators for formatting
-  } else {
-    calculation += value;
+    // Map for converting display operators back to calculation operators
+    this.operatorCalculationMap = {
+      '×': '*',
+      '÷': '/',
+      '+': '+',
+      '-': '-'
+    };
+    
+    this.initializeButtonHandlers();
   }
-  calculateEl.innerText = calculation; // Update the calculation display element with the updated string
-}
 
-// Function to calculate the result when the equal button is pressed
-function calculateResult() {
-  try {
-    calculation = eval(calculation); // Evaluate the calculation string
-    calculation = Math.round(calculation * 100) / 100; // Round the result to two decimal places
-    resultEl.textContent = calculation; // Display the result
-  } catch (error) {
-    resultEl.innerText = 'Error'; // Display "Error" if there's an issue with the calculation
-    calculation = ''; // Reset the calculation string
+  initializeButtonHandlers() {
+    // Map of button IDs to their corresponding values/functions
+    const buttonMappings = {
+      // Numbers
+      ...Array.from({ length: 10 }, (_, i) => ({
+        [`${i}-btn`]: i.toString()
+      })).reduce((acc, curr) => ({ ...acc, ...curr }), {}),
+      
+      // Operators
+      'divide-btn': ' ÷ ',
+      'multiply-btn': ' × ',
+      'subtract-btn': ' - ',
+      'add-btn': ' + ',
+      'decimal-btn': '.',
+      'equal-btn': this.calculateResult.bind(this),
+      'clear-btn': this.clearDisplay.bind(this),
+      'delete-btn': this.deleteLastCharacter.bind(this)
+    };
+
+    // Add event listeners for all buttons
+    Object.entries(buttonMappings).forEach(([buttonId, value]) => {
+      const button = document.getElementById(buttonId);
+      if (button) {
+        button.addEventListener('click', () => {
+          if (typeof value === 'function') {
+            value();
+          } else {
+            this.updateCalculation(value);
+          }
+        });
+      }
+    });
+
+    // Add keyboard support
+    document.addEventListener('keydown', this.handleKeyboardInput.bind(this));
+  }
+
+  handleKeyboardInput(event) {
+    const key = event.key.toLowerCase(); // Make case-insensitive
+    const keyMappings = new Map([
+      ['0123456789.', (k) => this.updateCalculation(k)],
+      ['+-/x*', (k) => {
+        // Convert keyboard operators to display operators
+        const displayOperator = this.operatorDisplayMap[k] || ` ${k} `;
+        this.updateCalculation(displayOperator);
+      }],
+      ['enter', () => this.calculateResult()],
+      ['escape', () => this.clearDisplay()],
+      ['backspace', () => this.deleteLastCharacter()]
+    ]);
+
+    for (const [keys, handler] of keyMappings) {
+      if (keys.includes(key) || keys === key) {
+        event.preventDefault();
+        handler(key);
+        break;
+      }
+    }
+  }
+
+  updateCalculation(value) {
+    // Check if the value is an operator (contains ×, ÷, +, or -)
+    const isOperator = /[×÷+\-]/.test(value.trim());
+    
+    // If it's an operator, check if the last character was also an operator
+    if (isOperator) {
+      // Get the last character, ignoring spaces
+      const lastChar = this.calculation.trim().slice(-1);
+      // Check if last character was an operator
+      if (/[×÷+\-]/.test(lastChar)) {
+        return; // Don't add the operator
+      }
+      // Don't allow operator as the first character (except minus)
+      if (this.calculation === '' && value.trim() !== '-') {
+        return;
+      }
+    }
+
+    this.calculation += value;
+    this.displays.calculation.textContent = this.calculation || '0';
+  }
+
+  calculateResult() {
+    try {
+      // Convert display operators back to calculation operators
+      let calculationString = this.calculation;
+      for (const [display, calc] of Object.entries(this.operatorCalculationMap)) {
+        calculationString = calculationString.replaceAll(display, calc);
+      }
+
+      // Sanitize the input
+      const sanitizedCalculation = calculationString
+        .replace(/[^0-9+\-*/. ]/g, '') // Only allow numbers and basic operators
+        .replace(/([+\-*/]){2,}/g, '$1'); // Remove consecutive operators
+
+      // Create a Function to evaluate the expression in a separate scope
+      const result = new Function(`return ${sanitizedCalculation}`)();
+      
+      if (!isFinite(result)) {
+        throw new Error('Invalid calculation');
+      }
+
+      const roundedResult = Math.round(result * 100) / 100;
+      this.displays.result.textContent = roundedResult;
+      this.calculation = roundedResult.toString();
+    } catch (error) {
+      this.displays.result.textContent = 'Error';
+      this.calculation = '';
+    }
+  }
+
+  clearDisplay() {
+    this.calculation = '';
+    this.displays.calculation.textContent = '0';
+    this.displays.result.textContent = '0';
+  }
+
+  deleteLastCharacter() {
+    if (this.calculation) {
+      // Handle removing operators with spaces
+      if (this.calculation.endsWith(' ')) {
+        this.calculation = this.calculation.slice(0, -3);
+      } else {
+        this.calculation = this.calculation.slice(0, -1);
+      }
+      this.displays.calculation.textContent = this.calculation || '0';
+    }
   }
 }
 
-// Function to clear the display
-function clearDisplay() {
-  calculateEl.innerText = "0"; // Clear the calculation display
-  resultEl.textContent = "0"; // Clear the result display
-  calculation = ''; // Reset the calculation string
-}
-
-// Function to delete the last character from the calculation string
-function deleteLastCharacter() {
-  if (calculation) {
-    calculation = calculation.slice(0, -1); // Remove the last character from the calculation string
-    calculateEl.innerText = calculation; // Update the calculation display
-  }
-}
-
-// Event listeners for number and operator button clicks
-zeroBtn.addEventListener('click', function() {
-  updateCalculation('0'); // Update the calculation display with the value of 0
+// Initialize the calculator when the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  const calculator = new Calculator();
 });
-oneBtn.addEventListener('click', function() {
-  updateCalculation('1'); // Update the calculation display with the value of 1
-});
-twoBtn.addEventListener('click', function() {
-  updateCalculation('2'); // Update the calculation display with the value of 2
-});
-threeBtn.addEventListener('click', function() {
-  updateCalculation('3'); // Update the calculation display with the value of 3
-});
-fourBtn.addEventListener('click', function() {
-  updateCalculation('4'); // Update the calculation display with the value of 4
-});
-fiveBtn.addEventListener('click', function() {
-  updateCalculation('5'); // Update the calculation display with the value of 5
-});
-sixBtn.addEventListener('click', function() {
-  updateCalculation('6'); // Update the calculation display with the value of 6
-});
-sevenBtn.addEventListener('click', function() {
-  updateCalculation('7'); // Update the calculation display with the value of 7
-});
-eightBtn.addEventListener('click', function() {
-  updateCalculation('8'); // Update the calculation display with the value of 8
-});
-nineBtn.addEventListener('click', function() {
-  updateCalculation('9'); // Update the calculation display with the value of 9
-});
-divideBtn.addEventListener('click', function() {
-  updateCalculation(' / '); // Update the calculation display with the division operator (*)
-});
-multiplyBtn.addEventListener('click', function() {
-  updateCalculation(' * '); // Update the calculation display with the multiplication operator (*)
-});
-subtractBtn.addEventListener('click', function() {
-  updateCalculation(' - '); // Update the calculation display with the subtraction operator (-)
-});
-addBtn.addEventListener('click', function() {
-  updateCalculation(' + '); // Update the calculation display with the addition operator (+)
-});
-decimalBtn.addEventListener('click', function() {
-  updateCalculation('.'); // Update the calculation display by adding a decimal point (.)
-});
-equalBtn.addEventListener('click', calculateResult); // Calculate the result when the "=" button is clicked
-clearBtn.addEventListener('click', clearDisplay); // Clear the display when the "Clear" button is clicked
-deleteBtn.addEventListener('click', deleteLastCharacter); // Delete the last character when the "Del" button is clicked
