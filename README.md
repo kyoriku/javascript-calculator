@@ -24,7 +24,7 @@ This calculator application demonstrates modern JavaScript concepts through an o
 The application combines keyboard support with comprehensive input validation, creating a secure and intuitive calculator experience. The clean interface and robust error handling make it accessible across various devices, whether for quick calculations or more complex arithmetic operations.
 
 ### Deployed Site
-Visit the live website at [https://kyoriku.github.io/javascript-calculator/](https://kyoriku.github.io/javascript-calculator/)
+Visit the live website at: [https://kyoriku.github.io/javascript-calculator/](https://kyoriku.github.io/javascript-calculator/)
 
 ## Features
 * **Secure Arithmetic Operations**
